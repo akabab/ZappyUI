@@ -5,14 +5,21 @@ using System.Collections;
 public class Interface : MonoBehaviour {
 
   public Socket socket;
+  public Game game;
   public MessageHandler messageHandler;
   public string messageReceived = "";
   public string messageToSend = "";
-  public Rect[] rect = new Rect[5];
+  public Rect[] rect;
+  public Rect logRect;
+  public bool displayLog;
+  public Vector2 scrollPosition;
+  private string logs;
+
 
   // Use this for initialization
   void Start () {
     socket = gameObject.GetComponent<Socket>();
+    game = gameObject.GetComponent<Game>();
     messageHandler = gameObject.GetComponent<MessageHandler>();
   }
   
@@ -23,6 +30,10 @@ public class Interface : MonoBehaviour {
       messageReceived = messageHandler.messageReceived;
     }
 
+    if (logs != game.logs)
+      scrollPosition = new Vector2(0, 100000000);
+
+    logs = game.logs;
   }
 
   void OnGUI () {
@@ -36,5 +47,19 @@ public class Interface : MonoBehaviour {
       if (GUI.Button(rect[1], "SEND"))
         socket.sendMessage(messageToSend);
     }
+
+    if (displayLog) {
+      logRect = GUILayout.Window(0, logRect, logWin, "Debug");
+    }
+  }
+
+  void logWin(int windowID) {
+    GUI.DragWindow(new Rect(0, 0, 10000, 20));
+
+    GUI.BeginGroup(rect[2]);
+    scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(400), GUILayout.Height(100));
+    GUILayout.Label(logs);
+    GUILayout.EndScrollView();
+    GUI.EndGroup();
   }
 }

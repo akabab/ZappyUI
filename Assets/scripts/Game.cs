@@ -17,9 +17,11 @@ public class Game : MonoBehaviour {
                                                   "Phiras",
                                                   "Thystame"
                                                  };
+  public Color[] resourcesColor = new Color[7];
   public GameObject sqPrefab;
   public GameObject resourcePrefab;
   public GameObject playerPrefab;
+  public string logs;
 
   // Use this for initialization
   void Start () {

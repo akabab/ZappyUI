@@ -41,6 +41,7 @@ public class MessageHandler : MonoBehaviour {
       for (var n = 0; n < res[k]; n++) {
         GameObject resource = Instantiate(game.resourcePrefab, new Vector3(0,0,0), Quaternion.identity) as GameObject;
         resource.name = k.ToString();
+        resource.renderer.material.color = game.resourcesColor[k];
         resource.transform.parent = sq.transform;
         resource.transform.localPosition = new Vector3(Random.Range(-0.4f, 0.4f), 0.5f, Random.Range(-0.4f, 0.4f));
       }
@@ -49,9 +50,14 @@ public class MessageHandler : MonoBehaviour {
  
 
   void createMap(int width, int height) {
+    //Center Map
+    // worldGO.transform.position = new Vector3(-(width / 2.0f - 0.5f), 0, -(height / 2f - 0.5f));
+
     for (int j = 0; j < height; j++) {
       for (int i = 0; i < height; i++) {
-        GameObject sq = Instantiate(game.sqPrefab, new Vector3(i, 0, j), Quaternion.identity) as GameObject;
+        GameObject sq = Instantiate(game.sqPrefab) as GameObject;
+        sq.transform.localPosition = new Vector3(i, 0, j);
+        sq.transform.rotation = Quaternion.identity;
         sq.name = i + " " + j;
         sq.transform.parent = worldGO.transform;
       }
@@ -69,6 +75,7 @@ public class MessageHandler : MonoBehaviour {
     pl.setOrientation(orientation);
     pl.setLevel(level);
     pl.setTeam(team);
+    // socket.sendMessage("pin " + id + "\n");
   }
 
   public Player getPlayerById(string id) {
@@ -97,13 +104,20 @@ public class MessageHandler : MonoBehaviour {
     Player    player;
 
     switch (msg[0]) {
+
+      case "BIENVENUE":
+        socket.sendMessage("GRAPHIC");
+        break;
       //Map Size
       case "msz":
+        game.logs += "Generating Map\n";
         game.mapSize = new Vector2(int.Parse(msg[1]), int.Parse(msg[2]));
         createMap(int.Parse(msg[1]), int.Parse(msg[2]));
+        Camera.main.GetComponent<CameraRotate>().watchPoint = new Vector3(game.mapSize.x / 2f, 0, game.mapSize.y / 2f);
         break;
       //Square content
       case "bct":
+        // game.logs += "Loading Resources\n";
         pos = new Vector2(int.Parse(msg[1]), int.Parse(msg[2]));
         res = new int[7] {
                             int.Parse(msg[3]),
@@ -122,11 +136,13 @@ public class MessageHandler : MonoBehaviour {
       //Team Name
       case "tna":
         team = msg[1];
+        game.logs += "New team joined: '" + team + "'\n";
         game.teams.Add(team);
         break;
       //New Player
       case "pnw":
         id = msg[1];
+        game.logs += "New player connected: " + id + "\n";
         pos = new Vector2(int.Parse(msg[2]), int.Parse(msg[3]));
         orientation = int.Parse(msg[4]);
         level = int.Parse(msg[5]);
@@ -146,7 +162,8 @@ public class MessageHandler : MonoBehaviour {
       case "plv":
         id = msg[1];
         level = int.Parse(msg[2]);
-        //setPlayerLvl(id, level);
+        player = getPlayerById(id);
+        player.setLevel(level);
         break;
       //Player inventory
       case "pin":
@@ -161,7 +178,8 @@ public class MessageHandler : MonoBehaviour {
                             int.Parse(msg[9]),
                             int.Parse(msg[10])
                           };
-        //setPlayerInventory(id, pos, res);
+        player = getPlayerById(id);
+        player.setInventory(res);
         break;
       //Player Expulse
       case "pex":
@@ -199,8 +217,7 @@ public class MessageHandler : MonoBehaviour {
       case "pdi":
         id = msg[1];
         player = getPlayerById(id);
-        //anim death
-        Destroy(player.gameObject);
+        player.die();
         break;
       case "sgt":
         game.t = int.Parse(msg[1]);
