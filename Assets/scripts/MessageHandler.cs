@@ -54,7 +54,7 @@ public class MessageHandler : MonoBehaviour {
     // worldGO.transform.position = new Vector3(-(width / 2.0f - 0.5f), 0, -(height / 2f - 0.5f));
 
     for (int j = 0; j < height; j++) {
-      for (int i = 0; i < height; i++) {
+      for (int i = 0; i < width; i++) {
         GameObject sq = Instantiate(game.sqPrefab) as GameObject;
         sq.transform.localPosition = new Vector3(i, 0, j);
         sq.transform.rotation = Quaternion.identity;
