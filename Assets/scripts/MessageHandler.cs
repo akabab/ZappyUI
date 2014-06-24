@@ -190,8 +190,11 @@ public class MessageHandler : MonoBehaviour {
         // messg = msg[2];
         //broadcastMessage(id, messg);
         break;
-      //
+      //"pic X Y L #n #n …\n
       case "pic":
+        id = msg[4];
+        player = getPlayerById(id);
+        player.cast();
         break;
       case "pie":
         break;

@@ -15,11 +15,12 @@ public class Square : MonoBehaviour {
     resGO = new GameObject[7];
 
     for (var k=0; k < resources.Length; k++) {
-      resGO[k] = Instantiate(game.resourcePrefab, new Vector3(0,0,0), Quaternion.identity) as GameObject;
+      resGO[k] = Instantiate(game.resourcePrefab) as GameObject;
       resGO[k].name = k.ToString();
       resGO[k].renderer.material.color = game.resourcesColor[k];
       resGO[k].transform.parent = transform;
-      resGO[k].transform.localPosition = new Vector3(Random.Range(-0.4f, 0.4f), 0.5f, Random.Range(-0.4f, 0.4f));
+      resGO[k].transform.localPosition = new Vector3(Random.Range(-0.4f, 0.4f), Random.Range(0.4f, 0.5f), Random.Range(-0.4f, 0.4f));
+      resGO[k].transform.localRotation = Quaternion.Euler(-90, Random.Range(0, 360), 0);
     }
   }
   

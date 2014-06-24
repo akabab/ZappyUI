@@ -24,7 +24,7 @@ public class Move : MonoBehaviour {
   // Update is called once per frame
   void Update () {
 
-    targetPos = new Vector3(pl.pos.x, transform.position.y, pl.pos.y);
+    targetPos = new Vector3(pl.tpos.x, transform.position.y, pl.tpos.y);
 
     dir = targetPos - transform.position;
    

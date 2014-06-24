@@ -5,6 +5,7 @@ public class Player : MonoBehaviour {
 
   public string id;
   public Vector2 pos;
+  public Vector2 tpos;
   public int orientation;
   public int level;
   public string team;
@@ -59,6 +60,7 @@ public class Player : MonoBehaviour {
   public Vector3 setPosition(Vector2 pos) {
     sq = GameObject.Find(pos.x + " " + pos.y);
     square = sq.GetComponent<Square>();
+    this.tpos = new Vector2(pos.x + Random.Range(-0.4f, 0.4f), pos.y + Random.Range(-0.4f, 0.4f));
     return this.pos = pos;
   }
 
@@ -89,6 +91,10 @@ public class Player : MonoBehaviour {
 
   public void dropResource(int res) {
 
+  }
+
+  public void cast() {
+    
   }
 
   public void die() {
