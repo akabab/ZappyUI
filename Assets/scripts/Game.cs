@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Game : MonoBehaviour {
 
-  public static Vector2 mapSize;
+  public Vector2 mapSize;
   public int t;
   public List<string> teams = new List<string>();
   public List<Player> players = new List<Player>();

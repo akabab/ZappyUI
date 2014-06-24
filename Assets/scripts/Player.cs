@@ -27,22 +27,25 @@ public class Player : MonoBehaviour {
 
   }
 
+
   void OnMouseUp () {
-    if (winId == this.id)
+    if (winId == this.id) {
       winId = "";
-    else
+    }
+    else {
       winId = this.id;
+    }
   }
 
   void OnGUI () {
     if (winId == this.id) {
       plRect = GUILayout.Window(1, plRect, dispWin, "Player " + this.id);
-
     }
   }
 
   void dispWin(int windowID) {
     GUI.DragWindow(new Rect(0, 0, 10000, 20));
+    GUILayout.Label("Lvl: " + this.level);
     for (var k=0; k < inventory.Length; k++) {
       GUILayout.Label(game.resourcesName[k] + ": " + this.inventory[k]);
     }
@@ -66,6 +69,7 @@ public class Player : MonoBehaviour {
   }
 
   public int setLevel(int level) {
+    Game.logs += "Player" + this.id + " lvl UP!\n";
     return this.level = level;
   }
 
@@ -80,18 +84,11 @@ public class Player : MonoBehaviour {
   }
 
   public void getResource(int res) {
-    Transform r = sq.transform.Find(res.ToString());
-    Destroy(r.gameObject);
-    square.resources[res] -= 1;
+
   }
 
   public void dropResource(int res) {
-    GameObject resource = Instantiate(game.resourcePrefab) as GameObject;
-    square.resources[res] += 1;
-    resource.name = res.ToString();
-    resource.renderer.material.color = game.resourcesColor[res];
-    resource.transform.parent = sq.transform;
-    resource.transform.localPosition = new Vector3(Random.Range(-0.4f, 0.4f), 0.5f, Random.Range(-0.4f, 0.4f));
+
   }
 
   public void die() {

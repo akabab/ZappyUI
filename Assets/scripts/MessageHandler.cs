@@ -32,19 +32,20 @@ public class MessageHandler : MonoBehaviour {
 
   }
 
+
   void loadResources(Vector2 pos, int[] res) {
     GameObject sq = GameObject.Find(pos.x + " " + pos.y);
     Square square = sq.GetComponent<Square>();
 
     for (var k = 0; k < res.Length; k++) {
       square.resources[k] = res[k];
-      for (var n = 0; n < res[k]; n++) {
-        GameObject resource = Instantiate(game.resourcePrefab, new Vector3(0,0,0), Quaternion.identity) as GameObject;
-        resource.name = k.ToString();
-        resource.renderer.material.color = game.resourcesColor[k];
-        resource.transform.parent = sq.transform;
-        resource.transform.localPosition = new Vector3(Random.Range(-0.4f, 0.4f), 0.5f, Random.Range(-0.4f, 0.4f));
-      }
+      // GameObject resource = Instantiate(game.resourcePrefab, new Vector3(0,0,0), Quaternion.identity) as GameObject;
+      // resource.name = res.ToString();
+      // resource.renderer.material.color = game.resourcesColor[k];
+      // resource.transform.parent = sq.transform;
+      // resource.transform.localPosition = new Vector3(Random.Range(-0.4f, 0.4f), 0.5f, Random.Range(-0.4f, 0.4f));
+
+      // square.resGO[k] = resource;
     }
   }
  
@@ -66,7 +67,7 @@ public class MessageHandler : MonoBehaviour {
 
   void newPlayer(string id, Vector2 pos, int orientation, int level, string team) {
     GameObject player = Instantiate(game.playerPrefab) as GameObject;
-    // player.transform.parent = worldGO.transform;
+    player.transform.parent = worldGO.transform;
     player.transform.position = new Vector3(pos.x, 0.5f, pos.y);
     Player pl = player.GetComponent<Player>();
     game.players.Add(pl);
@@ -75,7 +76,7 @@ public class MessageHandler : MonoBehaviour {
     pl.setOrientation(orientation);
     pl.setLevel(level);
     pl.setTeam(team);
-    // socket.sendMessage("pin " + id + "\n");
+    socket.sendMessage("pin " + id + "\n");
   }
 
   public Player getPlayerById(string id) {
@@ -86,8 +87,6 @@ public class MessageHandler : MonoBehaviour {
     }
     return null;
   }
-
-  private int _bct;
 
   public void handleMessage(string message) {
 
@@ -112,14 +111,14 @@ public class MessageHandler : MonoBehaviour {
       case "msz":
         Game.logs += "Generating Map\n";
         pos = new Vector2(int.Parse(msg[1]), int.Parse(msg[2]));
-        game.setMapSize(int.Parse(msg[1]), int.Parse(msg[2]));
+        game.mapSize = new Vector2(int.Parse(msg[1]), int.Parse(msg[2]));
         createMap(int.Parse(msg[1]), int.Parse(msg[2]));
         Camera.main.transform.position = new Vector3(pos.x / 2f, 5, -(pos.y / 2f));
         Camera.main.GetComponent<CameraOrbit>().target = new Vector3(pos.x / 2f, 0, pos.y / 2f);
         break;
       //Square content
       case "bct":
-        // game.logs += "Loading Resources\n";
+        // Game.logs += "Loading Resources\n";
         pos = new Vector2(int.Parse(msg[1]), int.Parse(msg[2]));
         res = new int[7] {
                             int.Parse(msg[3]),
@@ -130,10 +129,7 @@ public class MessageHandler : MonoBehaviour {
                             int.Parse(msg[8]),
                             int.Parse(msg[9])
                           };
-        if (_bct < (Game.mapSize.x * Game.mapSize.y)) {
           loadResources(pos, res);
-          _bct++;
-        }
         break;
       //Team Name
       case "tna":

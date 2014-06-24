@@ -1,0 +1,2 @@
+#INIT
+  retrieve player infos {inventory}

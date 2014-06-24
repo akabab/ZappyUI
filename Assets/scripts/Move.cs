@@ -36,15 +36,16 @@ public class Move : MonoBehaviour {
     dir = dir.normalized;
    
     // the amount we can move this frame
-    float move = speed * Time.deltaTime; //(7 / game.t) * 
+    float move = (game.t / 7) * speed * Time.deltaTime; //(7 / game.t) * 
    
     // limit our move to what we can travel.
     if (move > dist) {
       move = dist;
       isMoving = false;
     }
-    else
+    else {
       isMoving = true;
+    }
 
     // apply the movement to the object.
     transform.Translate(dir * move, Space.World);
