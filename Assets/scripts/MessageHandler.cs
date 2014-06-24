@@ -66,8 +66,8 @@ public class MessageHandler : MonoBehaviour {
 
   void newPlayer(string id, Vector2 pos, int orientation, int level, string team) {
     GameObject player = Instantiate(game.playerPrefab) as GameObject;
-    player.transform.parent = worldGO.transform;
-    player.transform.localPosition = new Vector3(pos.x, 0.5f, pos.y);
+    // player.transform.parent = worldGO.transform;
+    player.transform.position = new Vector3(pos.x, 0.5f, pos.y);
     Player pl = player.GetComponent<Player>();
     game.players.Add(pl);
     pl.setId(id);

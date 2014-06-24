@@ -61,7 +61,7 @@ public class Player : MonoBehaviour {
 
   //{N:1, E:2, S:3, O:4}
   public int setOrientation(int orientation) {
-    // transform.localRotation = Quaternion.Euler(0, (orientation - 1) * 90, 0); //
+    transform.localRotation = Quaternion.Euler(0, (orientation - 1) * -90 + 180, 0);
     return this.orientation = orientation;
   }
 

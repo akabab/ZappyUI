@@ -7,6 +7,8 @@ public class Move : MonoBehaviour {
   public float smooth = 1.0f;
   public Vector3 targetPos;
   public Vector3 targetRot;
+  public Vector3 dir;
+  public float dist;
   public bool isMoving = false;
   private GameObject gameGO;
   private Player pl;
@@ -24,7 +26,7 @@ public class Move : MonoBehaviour {
 
     targetPos = new Vector3(pl.pos.x, transform.position.y, pl.pos.y);
 
-    Vector3 dir = targetPos - transform.position;
+    dir = targetPos - transform.position;
    
     // magnitude is the total length of a vector.
     // getting the magnitude of the direction gives us the amount left to move
@@ -45,7 +47,7 @@ public class Move : MonoBehaviour {
       isMoving = true;
 
     // apply the movement to the object.
-    transform.Translate(dir * move);
+    transform.Translate(dir * move, Space.World);
 
     // apply rotation
     // Quaternion target = Quaternion.Euler(0, (pl.orientation - 1) * 90, 0);
