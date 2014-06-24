@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Game : MonoBehaviour {
 
-  public Vector2 mapSize;
+  public static Vector2 mapSize;
   public int t;
   public List<string> teams = new List<string>();
   public List<Player> players = new List<Player>();
@@ -21,7 +21,7 @@ public class Game : MonoBehaviour {
   public GameObject sqPrefab;
   public GameObject resourcePrefab;
   public GameObject playerPrefab;
-  public string logs;
+  public static string logs;
 
   // Use this for initialization
   void Start () {
@@ -31,5 +31,9 @@ public class Game : MonoBehaviour {
   // Update is called once per frame
   void Update () {
   
+  }
+
+  public Vector2 setMapSize(int width, int height) {
+    return mapSize = new Vector2(width, height);
   }
 }

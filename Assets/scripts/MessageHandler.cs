@@ -110,10 +110,12 @@ public class MessageHandler : MonoBehaviour {
         break;
       //Map Size
       case "msz":
-        game.logs += "Generating Map\n";
-        game.mapSize = new Vector2(int.Parse(msg[1]), int.Parse(msg[2]));
+        Game.logs += "Generating Map\n";
+        pos = new Vector2(int.Parse(msg[1]), int.Parse(msg[2]));
+        game.setMapSize(int.Parse(msg[1]), int.Parse(msg[2]));
         createMap(int.Parse(msg[1]), int.Parse(msg[2]));
-        Camera.main.GetComponent<CameraRotate>().watchPoint = new Vector3(game.mapSize.x / 2f, 0, game.mapSize.y / 2f);
+        Camera.main.transform.position = new Vector3(pos.x / 2f, 5, -(pos.y / 2f));
+        Camera.main.GetComponent<CameraOrbit>().target = new Vector3(pos.x / 2f, 0, pos.y / 2f);
         break;
       //Square content
       case "bct":
@@ -128,7 +130,7 @@ public class MessageHandler : MonoBehaviour {
                             int.Parse(msg[8]),
                             int.Parse(msg[9])
                           };
-        if (_bct < (game.mapSize.x * game.mapSize.y)) {
+        if (_bct < (Game.mapSize.x * Game.mapSize.y)) {
           loadResources(pos, res);
           _bct++;
         }
@@ -136,13 +138,13 @@ public class MessageHandler : MonoBehaviour {
       //Team Name
       case "tna":
         team = msg[1];
-        game.logs += "New team joined: '" + team + "'\n";
+        Game.logs += "New team joined: '" + team + "'\n";
         game.teams.Add(team);
         break;
       //New Player
       case "pnw":
         id = msg[1];
-        game.logs += "New player connected: " + id + "\n";
+        Game.logs += "New player connected: " + id + "\n";
         pos = new Vector2(int.Parse(msg[2]), int.Parse(msg[3]));
         orientation = int.Parse(msg[4]);
         level = int.Parse(msg[5]);

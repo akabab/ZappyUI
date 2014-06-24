@@ -30,10 +30,10 @@ public class Interface : MonoBehaviour {
       messageReceived = messageHandler.messageReceived;
     }
 
-    if (logs != game.logs)
+    if (logs != Game.logs)
       scrollPosition = new Vector2(0, 100000000);
 
-    logs = game.logs;
+    logs = Game.logs;
   }
 
   void OnGUI () {
@@ -42,11 +42,11 @@ public class Interface : MonoBehaviour {
       if (GUILayout.Button("Connect"))
         socket.init();
     }
-    else {
-      messageToSend = GUI.TextField(rect[0], messageToSend);
-      if (GUI.Button(rect[1], "SEND"))
-        socket.sendMessage(messageToSend);
-    }
+    // else {
+    //   messageToSend = GUI.TextField(rect[0], messageToSend);
+    //   if (GUI.Button(rect[1], "SEND"))
+    //     socket.sendMessage(messageToSend);
+    // }
 
     if (displayLog) {
       logRect = GUILayout.Window(0, logRect, logWin, "Debug");

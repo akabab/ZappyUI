@@ -95,7 +95,7 @@ public class Player : MonoBehaviour {
   }
 
   public void die() {
-    game.logs += "Player" + this.id + " died! Peace to his soul\n";
+    Game.logs += "Player" + this.id + " died! Peace to his soul\n";
     Destroy(this.gameObject);
   }
 

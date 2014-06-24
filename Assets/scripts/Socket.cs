@@ -12,9 +12,15 @@ public class Socket : MonoBehaviour {
   private StreamWriter  writer;
   private StreamReader  reader;
 
-  public string host = "127.0.0.1";
-  public Int32  port = 4242;
-  public bool   isConnected = false;
+  public string host;
+  public int port;
+  public bool isConnected = false;
+
+  void Start () {
+    host = PlayerPrefs.GetString("host");
+    port = PlayerPrefs.GetInt("port");
+    init();
+  }
 
   public void init()
   {
@@ -28,6 +34,7 @@ public class Socket : MonoBehaviour {
     }
     catch (Exception e) {
       isConnected = false;
+      Game.logs += "Socket connection error: " + e;
       Debug.Log("Socket connection error: " + e);
     }
   }
