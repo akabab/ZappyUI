@@ -25,7 +25,8 @@ public class Player : MonoBehaviour {
 
   // Update is called once per frame
   void Update () {
-
+    // if (!animation.isPlaying)
+      // animation.CrossFade("Idle_stand", 0.1f);
   }
 
 
@@ -46,6 +47,7 @@ public class Player : MonoBehaviour {
 
   void dispWin(int windowID) {
     GUI.DragWindow(new Rect(0, 0, 10000, 20));
+    GUILayout.Label("Team: " + this.team);
     GUILayout.Label("Lvl: " + this.level);
     for (var k=0; k < inventory.Length; k++) {
       GUILayout.Label(game.resourcesName[k] + ": " + this.inventory[k]);
