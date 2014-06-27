@@ -39,21 +39,11 @@ public class MessageHandler : MonoBehaviour {
 
     for (var k = 0; k < res.Length; k++) {
       square.resources[k] = res[k];
-      // GameObject resource = Instantiate(game.resourcePrefab, new Vector3(0,0,0), Quaternion.identity) as GameObject;
-      // resource.name = res.ToString();
-      // resource.renderer.material.color = game.resourcesColor[k];
-      // resource.transform.parent = sq.transform;
-      // resource.transform.localPosition = new Vector3(Random.Range(-0.4f, 0.4f), 0.5f, Random.Range(-0.4f, 0.4f));
-
-      // square.resGO[k] = resource;
     }
   }
  
 
   void createMap(int width, int height) {
-    //Center Map
-    // worldGO.transform.position = new Vector3(-(width / 2.0f - 0.5f), 0, -(height / 2f - 0.5f));
-
     for (int j = 0; j < height; j++) {
       for (int i = 0; i < width; i++) {
         GameObject sq = Instantiate(game.sqPrefab) as GameObject;

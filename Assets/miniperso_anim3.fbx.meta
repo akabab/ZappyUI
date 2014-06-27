@@ -338,7 +338,7 @@ ModelImporter:
       takeName: move_forward
       firstFrame: 0
       lastFrame: 4
-      wrapMode: 0
+      wrapMode: 1
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0

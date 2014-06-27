@@ -18,16 +18,45 @@ public class Player : MonoBehaviour {
 
   static Rect plRect = new Rect(50, 50, 200, 300);
 
+  public enum State {
+    idle,
+    born,
+    move,
+    grab;
+    cast,
+    dead
+  }
+
+  public State state;
+  private float dTime;
+
+
+  void Awake () {
+    inventory = new int[7];
+    state = State.borning;
+  }
+
   // Use this for initialization
   void Start () {
-    inventory = new int[7];
     game = GameObject.Find("Game").GetComponent<Game>();
+    animation["born"].speed = 0.6f;
   }
 
   // Update is called once per frame
   void Update () {
-    // if (!animation.isPlaying)
+    if (state != State.idle) {
+      dTime = 0;
       // animation.CrossFade("Idle_stand", 0.1f);
+    }
+    else {
+      dTime += Time.deltaTime;
+    }
+
+    if (dTime >= 0.3f) {
+      animation.Play("Idle_stand");
+    }
+
+    transform.LookAt(new Vector3(tpos.x, transform.position.y, tpos.y));
   }
 
 
@@ -69,12 +98,12 @@ public class Player : MonoBehaviour {
 
   //{N:1, E:2, S:3, O:4}
   public int setOrientation(int orientation) {
-    transform.localRotation = Quaternion.Euler(0, (orientation - 1) * -90 + 180, 0);
+    // transform.localRotation = Quaternion.Euler(0, (orientation - 1) * -90 + 180, 0);
     return this.orientation = orientation;
   }
 
   public int setLevel(int level) {
-    Game.logs += "Player" + this.id + " lvl UP!\n";
+    // Game.logs += "Player" + this.id + " lvl UP!\n";
     return this.level = level;
   }
 
@@ -97,24 +126,29 @@ public class Player : MonoBehaviour {
   }
 
   public void getResource(int res) {
-
+    state = State.grab;
+    animation.CrossFade("grab", 0.1f);
   }
 
   public void dropResource(int res) {
-
+    state = State.grab;
+    animation.CrossFade("grab", 0.1f);
   }
 
   public bool isCasting = false;
 
   public void cast() {
     isCasting = true;
+    state = State.cast;
     animation.CrossFade("preying", 0.2f);
   }
 
   public void die() {
+    state = State.dead;
     animation.CrossFade("death", 0.2f);
     Game.logs += "Player" + this.id + " died! Peace to his soul\n";
-    // Destroy(this.gameObject);
+    Destroy(this.gameObject, 5f);
   }
+
 
 }
