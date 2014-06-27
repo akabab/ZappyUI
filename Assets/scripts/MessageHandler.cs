@@ -76,12 +76,22 @@ public class MessageHandler : MonoBehaviour {
     pl.setOrientation(orientation);
     pl.setLevel(level);
     pl.setTeam(team);
+    pl.setColor(game.teamsColor[game.teams.IndexOf(team)]);
     socket.sendMessage("pin " + id + "\n");
   }
 
   public Player getPlayerById(string id) {
     foreach(Player pl in game.players) {
       if (pl.id == id) {
+        return pl;
+      }
+    }
+    return null;
+  }
+
+  public Player getPlayerByPos(Vector2 pos) {
+    foreach(Player pl in game.players) {
+      if (pl.pos == pos) {
         return pl;
       }
     }
@@ -196,7 +206,16 @@ public class MessageHandler : MonoBehaviour {
         player = getPlayerById(id);
         player.cast();
         break;
+      //Player finished casting
       case "pie":
+        pos = new Vector2(int.Parse(msg[1]), int.Parse(msg[2]));
+        int result = int.Parse(msg[3]);
+        foreach(Player pl in game.players) {
+          if (pl.pos == pos) {
+            pl.gameObject.animation.CrossFade("Idle_stand", 0.2f);
+            pl.isCasting = false;
+          }
+        }
         break;
       case "pfk":
         break;

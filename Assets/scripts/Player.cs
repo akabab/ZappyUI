@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class Player : MonoBehaviour {
@@ -9,6 +9,7 @@ public class Player : MonoBehaviour {
   public int orientation;
   public int level;
   public string team;
+  public Color color;
   public int[] inventory = new int[7];
   private GameObject sq;
   private Square square;
@@ -81,6 +82,14 @@ public class Player : MonoBehaviour {
     return this.team = team;
   }
 
+  public Color setColor(Color color) {
+    transform.Find("robot_body").renderer.materials[1].color = color;
+    transform.Find("robot_head").renderer.materials[1].color = color;
+    transform.Find("linerenderer").renderer.material.color = color;
+    transform.Find("Spotlight").light.color = color;
+    return this.color = color;
+  }
+
   public void setInventory(int[] res) {
     for(var k=0; k < res.Length; k++) {
       this.inventory[k] = res[k];
@@ -95,13 +104,17 @@ public class Player : MonoBehaviour {
 
   }
 
+  public bool isCasting = false;
+
   public void cast() {
-    
+    isCasting = true;
+    animation.CrossFade("preying", 0.2f);
   }
 
   public void die() {
+    animation.CrossFade("death", 0.2f);
     Game.logs += "Player" + this.id + " died! Peace to his soul\n";
-    Destroy(this.gameObject);
+    // Destroy(this.gameObject);
   }
 
 }

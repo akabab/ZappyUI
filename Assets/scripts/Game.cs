@@ -7,6 +7,7 @@ public class Game : MonoBehaviour {
   public Vector2 mapSize;
   public int t;
   public List<string> teams = new List<string>();
+  public Color[] teamsColor = new Color[10];
   public List<Player> players = new List<Player>();
   public string[] resourcesName = new string[7] {
                                                   "Food",
