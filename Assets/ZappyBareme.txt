@@ -1,0 +1,12 @@
+ZappyBareme
+
+
+leaks
+verify all returns on system calls
+splited commands must work (ex: "avance" --> "av\n" + "ance\n")
+
+UI
+CameraFollow
+
+
+Client (5pts)

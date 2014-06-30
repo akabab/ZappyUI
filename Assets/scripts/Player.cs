@@ -22,7 +22,7 @@ public class Player : MonoBehaviour {
     idle,
     born,
     move,
-    grab;
+    grab,
     cast,
     dead
   }
@@ -33,7 +33,7 @@ public class Player : MonoBehaviour {
 
   void Awake () {
     inventory = new int[7];
-    state = State.borning;
+    state = State.born;
   }
 
   // Use this for initialization

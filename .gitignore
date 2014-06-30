@@ -3,3 +3,5 @@ ProjectSettings/
 Temp/
 server
 serverJas
+*.csproj
+*.unityproj
